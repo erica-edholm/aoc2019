@@ -16,7 +16,7 @@ fun main(args: Array<String>) {
 }
 
 fun invokeSolver(day: String) {
-	val foundClass = Class.forName("dev.lofstrom.aoc2019.day$day.Day$day")
+	val foundClass = Class.forName("dev.lofstrom.aoc2019.Day$day")
 	val newSolver: Solver = foundClass.getDeclaredConstructor().newInstance() as Solver
 	newSolver.printSolution(day.toInt())
 

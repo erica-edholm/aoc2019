@@ -1,4 +1,4 @@
-package dev.lofstrom.aoc2019.day1
+package dev.lofstrom.aoc2019
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

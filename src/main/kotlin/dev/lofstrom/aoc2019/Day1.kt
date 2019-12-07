@@ -1,6 +1,5 @@
-package dev.lofstrom.aoc2019.day1
+package dev.lofstrom.aoc2019
 
-import dev.lofstrom.aoc2019.Solver
 import dev.lofstrom.aoc2019.utils.formatLinesOfStringsToInts
 
 class Day1 : Solver() {
