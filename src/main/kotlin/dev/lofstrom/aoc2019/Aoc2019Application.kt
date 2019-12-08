@@ -16,8 +16,13 @@ fun main(args: Array<String>) {
 }
 
 fun invokeSolver(day: String) {
-	val foundClass = Class.forName("dev.lofstrom.aoc2019.day$day.Day$day")
-	val newSolver: Solver = foundClass.getDeclaredConstructor().newInstance() as Solver
-	newSolver.printSolution(day.toInt())
+	try {
+		val foundClass = Class.forName("dev.lofstrom.aoc2019.day$day.Day$day")
+		val newSolver: Solver = foundClass.getDeclaredConstructor().newInstance() as Solver
+		newSolver.printSolution(day.toInt())
+	} catch (cfe: ClassNotFoundException) {
+		println("Solution for day $day could not be found")
+
+	}
 
 }
