@@ -1,7 +1,7 @@
 package dev.lofstrom.aoc2019.day2
 
 import dev.lofstrom.aoc2019.Solver
-import dev.lofstrom.aoc2019.utils.formatStringToInts
+import dev.lofstrom.aoc2019.utils.toInts
 import org.apache.commons.lang3.Validate.isTrue
 import java.util.*
 
@@ -15,7 +15,7 @@ class Day2 : Solver() {
 
   override fun solvePart1(input: String): Any {
     val program = input
-        .formatStringToInts()
+        .toInts(",")
         .toMutableList()
     executeIntCode(program)
     return program.getProgramOutput()
@@ -24,7 +24,7 @@ class Day2 : Solver() {
 
   override fun solvePart2(input: String): Any {
     val program = input
-        .formatStringToInts()
+        .toInts(",")
     for (noun in 0..100) {
       for (verb in 0..100) {
         val initializedProgram = program.toMutableList()
