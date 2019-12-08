@@ -3,21 +3,22 @@ package dev.lofstrom.aoc2019.day2
 import dev.lofstrom.aoc2019.Solver
 import dev.lofstrom.aoc2019.utils.formatStringToInts
 import org.apache.commons.lang3.Validate.isTrue
-import java.lang.IllegalArgumentException
 import java.util.*
 
-class Day2: Solver() {
+private const val WANTED_VALUE = 19690720
 
-  private val operations: Map<Int, (Int, Int) -> Int> = mapOf(
-      1 to {x: Int, y:Int -> x.plus(y)},
-      2 to {x: Int, y:Int -> x.times(y)}
-  )
+private const val ADDITION_OPERATION = 1
+private const val MULTIPLICATION_OPERATION = 2
+private const val EXIT_OPERATION = 99
+
+class Day2 : Solver() {
 
   override fun solvePart1(input: String): Any {
     val program = input
-        .formatStringToInts().toMutableList()
+        .formatStringToInts()
+        .toMutableList()
     executeIntCode(program)
-    return program[0]
+    return program.getProgramOutput()
   }
 
 
@@ -29,7 +30,7 @@ class Day2: Solver() {
         val initializedProgram = program.toMutableList()
         isTrue(Objects.equals(program, initializedProgram), "The memory is not reset")
         val output = executeIntCode(initializedProgram, noun, verb)
-        if(output[0] == 19690720) {
+        if (output.getProgramOutput() == WANTED_VALUE) {
           return noun * 100 + verb
         }
       }
@@ -41,19 +42,16 @@ class Day2: Solver() {
     program[1] = noun
     program[2] = verb
     for (i in program.indices step 4) {
-      val operation = program[i]
-      if (operation == 99) {
-        return program
-      }
-      else {
-        val function = operations[operation]
-        if(function != null) {
-          val result = function.invoke(program[program[i+1]], program[program[i+2]])
-          program[program[i+3]] = result
-        }
+      when (program[i]) {
+        ADDITION_OPERATION -> program[program[i + 3]] = program[program[i+1]].plus(program[program[i+2]])
+        MULTIPLICATION_OPERATION -> program[program[i + 3]] = program[program[i+1]].times(program[program[i+2]])
+        EXIT_OPERATION -> return program
+        else -> throw IllegalArgumentException("Unexpected operation: " + program[i] + " received" )
       }
     }
-    throw IllegalArgumentException("Could not find any 99 operations to exit the program")
+    throw IllegalArgumentException("Program did not exist as expected")
   }
+
+  private fun List<Int>.getProgramOutput(): Int = this[0]
 
 }
