@@ -28,6 +28,6 @@ class Day1 : Solver() {
   }
 
   fun getFuelByMass(mass: Int): Int {
-    return Integer.valueOf(mass / 3) - 2
+    return (mass / 3) - 2
   }
 }
