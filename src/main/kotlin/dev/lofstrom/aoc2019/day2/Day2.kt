@@ -29,9 +29,11 @@ class Day2 : Solver() {
       for (verb in 0..100) {
         val initializedProgram = program.toMutableList()
         isTrue(Objects.equals(program, initializedProgram), "The memory is not reset")
-        val output = executeIntCode(initializedProgram, noun, verb)
-        if (output.getProgramOutput() == WANTED_VALUE) {
-          return noun * 100 + verb
+        if(noun <= program.size && verb <= program.size) {
+          val output = executeIntCode(initializedProgram, noun, verb)
+          if (output.getProgramOutput() == WANTED_VALUE) {
+            return noun * 100 + verb
+          }
         }
       }
     }
