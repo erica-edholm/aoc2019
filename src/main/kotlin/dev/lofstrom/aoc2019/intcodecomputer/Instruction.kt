@@ -1,11 +1,9 @@
 package dev.lofstrom.aoc2019.intcodecomputer
 
-import dev.lofstrom.aoc2019.intcodecomputer.InstructionType.EXIT
 import dev.lofstrom.aoc2019.intcodecomputer.ParameterMode.Companion.getParameterModeByValue
-import dev.lofstrom.aoc2019.intcodecomputer.ParameterMode.IMMEDIATE
 
 class Instruction(instruction: Int) {
-  val type: InstructionType
+  private val type: InstructionType
   private val parameterModes: List<ParameterMode>
 
   init {
@@ -16,32 +14,25 @@ class Instruction(instruction: Int) {
         .reversed()
 
     type = InstructionType.getInstructionByOperationValue(instructionValues[1].toString() + instructionValues[0])
-    parameterModes = listOf(getParameterModeByValue(instructionValues[2]),
-        getParameterModeByValue
-        (instructionValues[3]), getParameterModeByValue(instructionValues[4]))
-
-  }
-
-  fun applyInstruction(program: MutableList<Int>, currentPointerPosition: Int) {
-    val parameterPosition = currentPointerPosition + 1
-    val parameters =
-        program
-            .subList(parameterPosition, currentPointerPosition + type.numberOfInstructions)
-    val parametersAfterAppliedModes: List<Int> =
-        parameterModes
-            .zip(parameters)
-            .map { pair ->
-              if (pair.first == IMMEDIATE) {
-                pair.second
-              } else {
-                program[pair.second]
-              }
-            }
-    val result = type.function.invoke(parametersAfterAppliedModes[0], parametersAfterAppliedModes[1])
-    if(type == InstructionType.ADDITION || type == InstructionType.MULTIPLICATION) {
-      program[parameters[2]] = result
+    val modes = mutableListOf<ParameterMode>()
+    var parameterIndex = 2
+    for (x in 1 until type.numberOfParameters) {
+      modes.add(getParameterModeByValue(instructionValues[parameterIndex]))
+      parameterIndex++
     }
+    parameterModes = modes
   }
 
+  fun getParameterModes(): List<ParameterMode> {
+    return parameterModes.toMutableList()
+  }
+
+  fun getNumberOfParameters(): Int {
+    return this.type.numberOfParameters
+  }
+
+  fun getType(): InstructionType {
+    return this.type
+  }
 
 }

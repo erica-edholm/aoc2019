@@ -1,12 +1,16 @@
 package dev.lofstrom.aoc2019.intcodecomputer
 
-import java.lang.IllegalArgumentException
+enum class InstructionType(val operationValue: String, val numberOfParameters: Int) {
 
-enum class InstructionType(val operationValue: String, val numberOfInstructions: Int, val function: (Int, Int) -> Int) {
-
-  ADDITION("01", 4, {a,b -> a.plus(b)}),
-  MULTIPLICATION("02", 4, {a,b -> a.times(b)}),
-  EXIT("99", 2, {a,_ -> a});
+  ADDITION("01", 4),
+  MULTIPLICATION("02", 4),
+  INPUT("03", 2),
+  OUTPUT("04", 2),
+  JUMP_IF_TRUE("05", 3),
+  JUMP_IF_FALSE("06", 3),
+  LESS_THAN("07", 4),
+  EQUALS("08", 4),
+  EXIT("99", 1);
 
   companion object {
     fun getInstructionByOperationValue(findValue: String): InstructionType =
